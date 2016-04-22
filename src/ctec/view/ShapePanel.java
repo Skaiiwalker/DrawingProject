@@ -3,6 +3,7 @@ package ctec.view;
 import javax.swing.JPanel;
 import java.awt.Rectangle;
 import java.awt.Graphics;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class ShapePanel extends JPanel
