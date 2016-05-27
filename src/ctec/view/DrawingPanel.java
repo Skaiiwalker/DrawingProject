@@ -21,6 +21,8 @@ public class DrawingPanel extends JPanel
 	private JButton addEllipseButton;
 	private JButton addPolygonButton;
 	private JButton clearButton;
+	private JButton seizureButton;
+	private Boolean seizure;
 	
 	public DrawingPanel(DrawingController baseController)
 	{
@@ -35,6 +37,9 @@ public class DrawingPanel extends JPanel
 		addEllipseButton = new JButton("Draw an ellipse");
 		addPolygonButton = new JButton("Draw a polygon");
 		clearButton = new JButton("Clear the board");
+		seizureButton = new JButton("Seizure Warning");
+		
+		seizure = new Boolean(false);
 		
 		setupPanel();
 		setupLayout();
@@ -53,11 +58,14 @@ public class DrawingPanel extends JPanel
 		this.add(addEllipseButton);
 		this.add(addPolygonButton);
 		this.add(clearButton);
+		this.add(seizureButton);
 		
 	}
 	
 	private void setupLayout()
 	{
+		baseLayout.putConstraint(SpringLayout.NORTH, seizureButton, 0, SpringLayout.NORTH, clearButton);
+		baseLayout.putConstraint(SpringLayout.EAST, seizureButton, -6, SpringLayout.WEST, clearButton);
 		baseLayout.putConstraint(SpringLayout.WEST, addRectangleButton, 10, SpringLayout.WEST, this);
 		baseLayout.putConstraint(SpringLayout.SOUTH, addRectangleButton, -6, SpringLayout.NORTH, shapePanel);
 		baseLayout.putConstraint(SpringLayout.WEST, addSquareButton, 6, SpringLayout.EAST, addRectangleButton);
@@ -143,12 +151,30 @@ public class DrawingPanel extends JPanel
 			}
 		});
 		
+		seizureButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				if(seizure == false)
+				{
+					seizure = true;
+				}
+				else
+				{
+					seizure = false;
+				}
+			}
+		});
+		
 		this.addMouseMotionListener(new MouseMotionListener()
 		{
 			public void mouseMoved(MouseEvent moved)
 			{
-				//shapePanel.addRandom();
-				//repaint();
+				if(seizure == true)
+				{
+					shapePanel.addRandom();
+					repaint();
+				}
 			}
 			
 			public void mouseDragged(MouseEvent dragged)
