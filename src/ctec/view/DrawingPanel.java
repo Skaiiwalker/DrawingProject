@@ -1,17 +1,11 @@
 package ctec.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
+import ctec.controller.*;
+
+import java.awt.event.*;
+import java.awt.*;
 
 import ctec.controller.DrawingController;
 
@@ -20,17 +14,27 @@ public class DrawingPanel extends JPanel
 	private DrawingController baseController;
 	private SpringLayout baseLayout;
 	private ShapePanel shapePanel;
-	private JButton drawRectangleButton;
-	private ArrayList<Rectangle> rectangleList;
+	private JButton addRectangleButton;
+	private JButton addSquareButton;
+	private JButton addTriangleButton;
+	private JButton addCircleButton;
+	private JButton addEllipseButton;
+	private JButton addPolygonButton;
+	private JButton clearButton;
 	
 	public DrawingPanel(DrawingController baseController)
 	{
 		this.baseController = baseController;
 		baseLayout = new SpringLayout();
 		shapePanel = new ShapePanel();
-		rectangleList = new ArrayList<Rectangle>();
 		
-		drawRectangleButton = new JButton("Draw the rectangle");
+		addRectangleButton = new JButton("Draw a rectangle");
+		addSquareButton = new JButton("Draw a square");
+		addTriangleButton = new JButton("Draw a triangle");
+		addCircleButton = new JButton("Draw a circle");
+		addEllipseButton = new JButton("Draw an ellipse");
+		addPolygonButton = new JButton("Draw a polygon");
+		clearButton = new JButton("Clear the board");
 		
 		setupPanel();
 		setupLayout();
@@ -39,50 +43,118 @@ public class DrawingPanel extends JPanel
 	
 	private void setupPanel()
 	{
+		this.setLayout(baseLayout);
+		this.setBackground(Color.DARK_GRAY);
+		this.add(shapePanel);
+		this.add(addRectangleButton);
+		this.add(addSquareButton);
+		this.add(addTriangleButton);
+		this.add(addCircleButton);
+		this.add(addEllipseButton);
+		this.add(addPolygonButton);
+		this.add(clearButton);
 		
 	}
 	
 	private void setupLayout()
 	{
-		
+		baseLayout.putConstraint(SpringLayout.WEST, addRectangleButton, 10, SpringLayout.WEST, this);
+		baseLayout.putConstraint(SpringLayout.SOUTH, addRectangleButton, -6, SpringLayout.NORTH, shapePanel);
+		baseLayout.putConstraint(SpringLayout.WEST, addSquareButton, 6, SpringLayout.EAST, addRectangleButton);
+		baseLayout.putConstraint(SpringLayout.SOUTH, addSquareButton, -6, SpringLayout.NORTH, shapePanel);
+		baseLayout.putConstraint(SpringLayout.NORTH, addTriangleButton, 0, SpringLayout.NORTH, addRectangleButton);
+		baseLayout.putConstraint(SpringLayout.WEST, addTriangleButton, 6, SpringLayout.EAST, addSquareButton);
+		baseLayout.putConstraint(SpringLayout.WEST, addCircleButton, 6, SpringLayout.EAST, addTriangleButton);
+		baseLayout.putConstraint(SpringLayout.SOUTH, addCircleButton, -6, SpringLayout.NORTH, shapePanel);
+		baseLayout.putConstraint(SpringLayout.WEST, addEllipseButton, 6, SpringLayout.EAST, addCircleButton);
+		baseLayout.putConstraint(SpringLayout.SOUTH, addEllipseButton, -6, SpringLayout.NORTH, shapePanel);
+		baseLayout.putConstraint(SpringLayout.NORTH, addPolygonButton, 0, SpringLayout.NORTH, addRectangleButton);
+		baseLayout.putConstraint(SpringLayout.WEST, addPolygonButton, 6, SpringLayout.EAST, addEllipseButton);
+		baseLayout.putConstraint(SpringLayout.SOUTH, clearButton, -10, SpringLayout.SOUTH, this);
+		baseLayout.putConstraint(SpringLayout.EAST, clearButton, -10, SpringLayout.EAST, this);
+		baseLayout.putConstraint(SpringLayout.NORTH, shapePanel, 50, SpringLayout.NORTH, this);
+		baseLayout.putConstraint(SpringLayout.WEST, shapePanel, 50, SpringLayout.WEST, this);
+		baseLayout.putConstraint(SpringLayout.SOUTH, shapePanel, -50, SpringLayout.SOUTH, this);
+		baseLayout.putConstraint(SpringLayout.EAST, shapePanel, -50, SpringLayout.EAST, this);
 	}
 	
 	private void setupListeners()
 	{
-		drawRectangleButton.addActionListener(new ActionListener()
+		addRectangleButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent click)
 			{
-				int xPosition = (int)(Math.random() * 600);
-				int yPosition = (int)(Math.random() * 600);
-				int width = (int)(Math.random() * 50);
-				int height = (int)(Math.random() * 50);
-				
-				rectangleList.add(new Rectangle(xPosition, yPosition, width, height));
+				shapePanel.addRectangle();
 				repaint();
 			}
 		});
-	}
-	
-	@Override
-	protected void paintComponent(Graphics currentGraphics)
-	{
-		super.paintComponent(currentGraphics);
-		Graphics2D mainGraphics = (Graphics2D)currentGraphics;
-		mainGraphics.setColor(Color.GREEN);
-		mainGraphics.setStroke(new BasicStroke(15));
-		mainGraphics.draw(new Rectangle(10,10,20,40));
 		
-		for(Rectangle current : rectangleList)
+		addSquareButton.addActionListener(new ActionListener()
 		{
-			int randomStroke = (int)(Math.random() * 7);
-			int red = (int)(Math.random() * 256);
-			int blue = (int)(Math.random() * 256);
-			int green = (int)(Math.random() * 256);
-			mainGraphics.setColor(new Color(red, green, blue));
-			mainGraphics.setStroke(new BasicStroke(randomStroke));
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.addSquare();
+				repaint();
+			}
+		});
+		
+		addTriangleButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.addTriangle();
+				repaint();
+			}
+		});
+		
+		addCircleButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.addCircle();
+				repaint();
+			}
+		});
+		
+		addEllipseButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.addEllipse();
+				repaint();
+			}
+		});
+		
+		addPolygonButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.addPolygon();
+				repaint();
+			}
+		});
+		
+		clearButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				shapePanel.clear();
+				repaint();
+			}
+		});
+		
+		this.addMouseMotionListener(new MouseMotionListener()
+		{
+			public void mouseMoved(MouseEvent moved)
+			{
+				//shapePanel.addRandom();
+				//repaint();
+			}
 			
-			mainGraphics.fill(current);
-		}
+			public void mouseDragged(MouseEvent dragged)
+			{
+				
+			}
+		});
 	}
 }
