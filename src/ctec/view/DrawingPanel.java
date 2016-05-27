@@ -22,7 +22,7 @@ public class DrawingPanel extends JPanel
 	private JButton addPolygonButton;
 	private JButton clearButton;
 	private JButton seizureButton;
-	private Boolean seizure;
+	public Boolean seizure;
 	
 	public DrawingPanel(DrawingController baseController)
 	{

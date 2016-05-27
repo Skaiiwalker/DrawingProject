@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
+import ctec.view.DrawingPanel;
 
 public class ShapePanel extends JPanel
 {
@@ -272,5 +273,5 @@ public class ShapePanel extends JPanel
 			mainGraphics.setStroke(new BasicStroke(pencilSize));
 			mainGraphics.fill(current);
 		}
-	}
+	}		
 }
